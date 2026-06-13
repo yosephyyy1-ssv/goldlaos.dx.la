@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(node --version)",
+      "PowerShell(npm --version)",
+      "mcp__Claude_Preview__preview_start",
+      "PowerShell($r1 = try { \\(Invoke-WebRequest -Uri \"http://localhost:3000/api/me\" -Headers @{Authorization=\"Bearer u-demo.fakesignature\"} -UseBasicParsing\\).StatusCode } catch { $_.Exception.Response.StatusCode.value__ }; $r2 = try { \\(Invoke-WebRequest -Uri \"http://localhost:3000/api/me\" -UseBasicParsing\\).StatusCode } catch { $_.Exception.Response.StatusCode.value__ }; $r3 = try { \\(Invoke-WebRequest -Uri \"http://localhost:3000/\" -UseBasicParsing -MaximumRedirection 0\\).StatusCode } catch { $_.Exception.Response.StatusCode.value__ }; \"fakeToken=$r1 noAuth=$r2 pageNoCookie=$r3\")",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git -c user.name=\"GoldSave Dev\" -c user.email=\"dev@goldsave.la\" commit -m \"Initial commit: GoldSave Laos web + mobile + Supabase backend\")",
+      "Bash(git branch *)"
+    ]
+  }
+}

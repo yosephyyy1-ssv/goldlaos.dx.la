@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "GoldSave Laos",
+    "slug": "goldsave-laos",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#0a0e1a",
+    "splash": {
+      "backgroundColor": "#0a0e1a"
+    },
+    "ios": {
+      "bundleIdentifier": "la.goldsave.app",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "la.goldsave.app"
+    }
+  }
+}
