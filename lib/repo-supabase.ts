@@ -52,12 +52,15 @@ function toTx(r: TxRow): Tx {
 type WdRow = {
   id: string; user_id: string; type: "cash" | "gold"; lak: number; gram: number;
   fee: number; status: WithdrawRequest["status"]; created_at: string;
-  decided_at: string | null; profiles: { name: string } | null;
+  decided_at: string | null;
+  withdrawals_user_id_fkey?: { name: string } | null;
+  profiles?: { name: string } | { name: string }[] | null;
 };
 
 function toWd(r: WdRow): WithdrawRequest {
+  const p = Array.isArray(r.profiles) ? r.profiles[0] : r.profiles;
   return {
-    id: r.id, userId: r.user_id, userName: r.profiles?.name ?? "",
+    id: r.id, userId: r.user_id, userName: p?.name ?? "",
     type: r.type, lak: Number(r.lak), gram: Number(r.gram), fee: Number(r.fee),
     status: r.status, createdAt: r.created_at, decidedAt: r.decided_at ?? undefined,
   };
@@ -122,7 +125,7 @@ export const supabaseRepo: Repo = {
 
   async getUserWithdrawals(userId) {
     const { data, error } = await supabaseAdmin().from("withdrawals")
-      .select("*, profiles(name)").eq("user_id", userId)
+      .select("*, profiles!withdrawals_user_id_fkey(name)").eq("user_id", userId)
       .order("created_at", { ascending: false });
     if (error) rpcError(error);
     return (data as WdRow[]).map(toWd);
@@ -137,7 +140,7 @@ export const supabaseRepo: Repo = {
 
   async listWithdrawals() {
     const { data, error } = await supabaseAdmin().from("withdrawals")
-      .select("*, profiles(name)")
+      .select("*, profiles!withdrawals_user_id_fkey(name)")
       .order("created_at", { ascending: false }).limit(200);
     if (error) rpcError(error);
     return (data as WdRow[]).map(toWd);
@@ -193,7 +196,7 @@ export const supabaseRepo: Repo = {
     });
     if (error) rpcError(error);
     const { data } = await supabaseAdmin().from("withdrawals")
-      .select("*, profiles(name)").eq("id", id).single();
+      .select("*, profiles!withdrawals_user_id_fkey(name)").eq("id", id).single();
     return toWd(data as WdRow);
   },
 
